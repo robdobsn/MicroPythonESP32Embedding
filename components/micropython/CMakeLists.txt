@@ -94,8 +94,6 @@ idf_component_register(
                   "${EXTERNAL_MICROPYTHON_DIR}/lib/timeutils/timeutils.c"
                   "${EXTERNAL_MICROPYTHON_DIR}/lib/utils/interrupt_char.c"
                   "${EXTERNAL_MICROPYTHON_DIR}/extmod/utime_mphal.c"
-                  "${EXTERNAL_MICROPYTHON_DIR}/extmod/vfs.c"
-                  "${EXTERNAL_MICROPYTHON_DIR}/extmod/vfs_reader.c"
                   "${EXTERNAL_MICROPYTHON_DIR}/lib/utils/pyexec.c"
                   "${MICROPYTHON_PORT_DIR}/gccollect.c"
                   "${MICROPYTHON_PORT_DIR}/help.c"
@@ -103,6 +101,7 @@ idf_component_register(
                   "${MICROPYTHON_PORT_DIR}/mpthreadport.c"
                   "${MICROPYTHON_PORT_DIR}/modutime.c"
                   "cppif/Micropython.cpp"
+                  "cppif/FileSysReader.cpp"
                   "${EXTERNAL_MICROPYTHON_BUILD_DIR}/frozen_content.c"
                 INCLUDE_DIRS
                   "."

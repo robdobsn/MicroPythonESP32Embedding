@@ -121,11 +121,10 @@ void mp_hal_stdout_tx_strn(const char *str, uint32_t len) {
     char tmpStr[len+1];
     memcpy(tmpStr, str, len);
     tmpStr[len] = 0;
-    ESP_LOGI("MPHAL", "%s", tmpStr);
-    // for (uint32_t i = 0; i < len; ++i) {
-        // uart_tx_one_char(str[i]);
-
-    // }
+    // ESP_LOGI("MPHAL", "%s", tmpStr);
+    for (uint32_t i = 0; i < len; ++i) {
+        uart_tx_one_char(str[i]);
+    }
     if (release_gil) {
         MP_THREAD_GIL_ENTER();
     }
@@ -134,22 +133,22 @@ void mp_hal_stdout_tx_strn(const char *str, uint32_t len) {
 
 // Efficiently convert "\n" to "\r\n"
 void mp_hal_stdout_tx_strn_cooked(const char *str, size_t len) {
-    // const char *last = str;
-    // while (len--) {
-    //     if (*str == '\n') {
-    //         if (str > last) {
-    //             mp_hal_stdout_tx_strn(last, str - last);
-    //         }
-    //         mp_hal_stdout_tx_strn("\r\n", 2);
-    //         ++str;
-    //         last = str;
-    //     } else {
-    //         ++str;
-    //     }
-    // }
-    // if (str > last) {
-    //     mp_hal_stdout_tx_strn(last, str - last);
-    // }
+    const char *last = str;
+    while (len--) {
+        if (*str == '\n') {
+            if (str > last) {
+                mp_hal_stdout_tx_strn(last, str - last);
+            }
+            mp_hal_stdout_tx_strn("\r\n", 2);
+            ++str;
+            last = str;
+        } else {
+            ++str;
+        }
+    }
+    if (str > last) {
+        mp_hal_stdout_tx_strn(last, str - last);
+    }
 }
 
 uint32_t mp_hal_ticks_ms(void) {

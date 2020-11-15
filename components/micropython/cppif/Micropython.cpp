@@ -190,19 +190,10 @@ void Micropython::mp_task(void *pvParameter)
             pThis->_isPythonProgramRunning = true;
             if (task._isFile && task._pExecStr)
             {
-                if (mp_vfs_import_stat(task._pExecStr) != MP_IMPORT_STAT_FILE)
-                    ESP_LOGI(MODULE_PREFIX, "mp_vfs_import_stat failed"); 
                 int rslt = pyexec_file_if_exists(task._pExecStr);
                 pThis->_isPythonProgramRunning = false;
                 ESP_LOGI(MODULE_PREFIX, "mp_task exec %s rslt %d", task._pExecStr, rslt);
             }
-            else
-            {
-                pyexec_event_repl_process_char('A');
-                // for (int i = 0; i < strlen(task._pExecStr); i++)
-                //     pyexec_event_repl_process_char(task._pExecStr[i]);
-            }
-            
         }
         // Allow other threads a look-in
         vTaskDelay(1);
@@ -214,18 +205,18 @@ void Micropython::mp_task(void *pvParameter)
 // Helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-extern "C" void nlr_jump_fail(void *val) {
-    printf("NLR jump failed, val=%p\n", val);
-    esp_restart();
-}
-
-#if !MICROPY_READER_VFS
-// mp_lexer_t *mp_lexer_new_from_file(const char *filename) {
-//     mp_raise_OSError(MP_ENOENT);
-// }
-#endif
-
 int vprintf_null(const char *format, va_list ap) {
     // do nothing: this is used as a log target during raw repl mode
     return 0;
 }
+
+// This is a fiddle to allow a test file to run
+mp_import_stat_t mp_import_stat(const char *path) {
+    return MP_IMPORT_STAT_FILE;
+}
+
+void nlr_jump_fail(void *val) {
+    printf("NLR jump failed, val=%p\n", val);
+    esp_restart();
+}
+

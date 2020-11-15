@@ -70,7 +70,7 @@
 #define MICROPY_USE_INTERNAL_PRINTF         (0) // ESP32 SDK requires its own printf
 #define MICROPY_ENABLE_SCHEDULER            (1)
 #define MICROPY_SCHEDULER_DEPTH             (8)
-#define MICROPY_VFS                         (1)
+#define MICROPY_VFS                         (0)
 
 // control over Python builtins
 #define MICROPY_PY_FUNCTION_ATTRS           (1)
@@ -185,11 +185,10 @@
 #define mp_type_textio                      mp_type_vfs_fat_textio
 
 // use vfs's functions for import stat and builtin open
-#define mp_import_stat mp_vfs_import_stat
-#define mp_builtin_open mp_vfs_open
-#define mp_builtin_open_obj mp_vfs_open_obj
+// #define mp_import_stat mp_vfs_import_stat
+// #define mp_builtin_open mp_vfs_open
+// #define mp_builtin_open_obj mp_vfs_open_obj
 
-// TODO RD Removed
 // extra built in names to add to the global namespace
 /*#define MICROPY_PORT_BUILTINS \
     { MP_OBJ_NEW_QSTR(MP_QSTR_input), (mp_obj_t)&mp_builtin_input_obj }, \
