@@ -1,8 +1,8 @@
 set(EXTERNAL_MICROPYTHON_DIR "${PROJECT_DIR}/external/micropython")
-set(EXTERNAL_MICROPYTHON_BUILD_DIR "${PROJECT_DIR}/external/micropython/ports/ric/build-ric2")
+set(EXTERNAL_MICROPYTHON_BUILD_DIR "${PROJECT_DIR}/external/micropython/ports/ric/build-GENERIC")
 set(EXTERNAL_MICROPYTHON_PORT_DIR, "${PROJECT_DIR}/external/micropython/ports/ric")
 set(MICROPYTHON_PORT_DIR "${COMPONENT_DIR}/ports/ric")
-set(MICROPYTHON_BOARD_DIR "${COMPONENT_DIR}/ports/ric/boards/ric2")
+set(MICROPYTHON_BOARD_DIR "${COMPONENT_DIR}/ports/ric/boards/GENERIC")
 
 idf_component_register(
                 SRCS 
@@ -122,7 +122,7 @@ add_custom_command(OUTPUT "${EXTERNAL_MICROPYTHON_BUILD_DIR}/frozen_content.c"
     COMMAND echo "------------- Building Micropython externally ---------------"
     COMMAND ${CMAKE_COMMAND} -E copy_directory ${COMPONENT_DIR}/ports/ric ${EXTERNAL_MICROPYTHON_DIR}/ports/ric
     COMMAND cd ${EXTERNAL_MICROPYTHON_DIR}/ports/ric
-    COMMAND make BOARD=ric2 GENERATIONPHASE=y USER_C_MODULES=${EXTERNAL_MICROPYTHON_DIR}/ports/ric/cmodules
+    COMMAND make BOARD=GENERIC GENERATIONPHASE=y
     DEPENDS 
       ${MICROPYTHON_PORT_DIR}/mpconfigport.h
 )
